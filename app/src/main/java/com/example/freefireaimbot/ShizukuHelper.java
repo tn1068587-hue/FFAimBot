@@ -136,7 +136,12 @@ public class ShizukuHelper {
         
         try {
             // Usar Shizuku para executar comandos com privilégios de sistema
-            Process process = Shizuku.newProcess(new String[]{"sh", "-c", command}, null, null);
+            java.lang.reflect.Method newProcessMethod = Shizuku.class.getDeclaredMethod(
+        "newProcess", String[].class, String[].class, String.class);
+newProcessMethod.setAccessible(true);
+Process process = (Process) newProcessMethod.invoke(
+        null, new String[]{"sh", "-c", command}, null, null);
+
             
             // Ler resultado em thread separada
             new Thread(() -> {
