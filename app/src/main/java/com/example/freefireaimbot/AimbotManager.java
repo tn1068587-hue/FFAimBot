@@ -198,7 +198,11 @@ public class AimbotManager {
         Object[] outputs = {outputLocations, outputClasses, outputScores, numDetections};
         
         // Executar inferência
-        tfliteInterpreter.runForMultipleInputsOutputs(inputs, outputs);
+        java.util.Map<Integer, Object> outputMap = new java.util.HashMap<>();
+for (int i = 0; i < outputs.length; i++) {
+    outputMap.put(i, outputs[i]);
+}
+tfliteInterpreter.runForMultipleInputsOutputs(inputs, outputMap);
         
         // Processar resultados
         processDetectionResults(outputLocations, outputClasses, outputScores, numDetections);
